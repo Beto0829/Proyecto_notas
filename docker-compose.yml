@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  notas.server:
+    image: ${DOCKER_REGISTRY-}notasserver
+    build:
+      context: .
+      dockerfile: Notas.Server/Dockerfile
+    depends_on: 
+            - database
+  database:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: SqlServer
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "!1PasswordBackEnd."
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    hostname: backdb-container
